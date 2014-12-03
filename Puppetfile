@@ -3,7 +3,6 @@
 #
 mod 'profile',
   :git => 'https://github.com/norcams/himlar-profile',
-#  :ref => '0.2.0'
   :branch => 'master'
 
 # admin role
@@ -34,6 +33,13 @@ mod 'ntp',
 mod 'account',
   :git => 'https://github.com/Mylezeem/puppet-account.git',
   :ref => 'multiple_accounts'
+
+#
+# net
+#
+mod 'quagga',
+  :git => 'https://github.com/LeslieCarr/puppet-quagga',
+  :branch => 'master'
 
 #
 # Common lib
