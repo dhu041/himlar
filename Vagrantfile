@@ -4,9 +4,17 @@
 $provision=<<SHELL
   install_puppet_and_tools()
   {
-    rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
-    yum install -y puppet facter rubygems rubygem-deep_merge \
+    # centos
+    command -v rpm >/dev/null 2>&1 && \
+      rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+    command -v yum >/dev/null 2>&1 && \
+      yum install -y puppet facter rubygems rubygem-deep_merge \
       rubygem-puppet-lint git
+
+    # debian
+    command -v apt-get >/dev/null 2>&1 && \
+      apt-get -y install puppet git ruby-deep-merge ruby-puppet-lint
+
     # puppet settings
     ln -sfT /vagrant/hieradata /etc/puppet/hieradata
     puppet config set hiera_config /vagrant/hiera.yaml
@@ -41,7 +49,7 @@ SHELL
 VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = 'norcams/centos7'
+  config.vm.box = 'puppetlabs/debian-7.6-64-puppet'
 
   config.vm.synced_folder '.', '/vagrant', type: 'rsync',
     rsync__exclude: [ '.git/', '.vagrant/' ]
